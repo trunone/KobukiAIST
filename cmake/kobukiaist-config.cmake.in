@@ -1,0 +1,54 @@
+# KobukiAIST CMake config file
+#
+# This file sets the following variables:
+# KobukiAIST_FOUND - Always TRUE.
+# KobukiAIST_INCLUDE_DIRS - Directories containing the KobukiAIST include files.
+# KobukiAIST_IDL_DIRS - Directories containing the KobukiAIST IDL files.
+# KobukiAIST_LIBRARIES - Libraries needed to use KobukiAIST.
+# KobukiAIST_DEFINITIONS - Compiler flags for KobukiAIST.
+# KobukiAIST_VERSION - The version of KobukiAIST found.
+# KobukiAIST_VERSION_MAJOR - The major version of KobukiAIST found.
+# KobukiAIST_VERSION_MINOR - The minor version of KobukiAIST found.
+# KobukiAIST_VERSION_REVISION - The revision version of KobukiAIST found.
+# KobukiAIST_VERSION_CANDIDATE - The candidate version of KobukiAIST found.
+
+message(STATUS "Found KobukiAIST-@PROJECT_VERSION@")
+set(KobukiAIST_FOUND TRUE)
+
+find_package(<dependency> REQUIRED)
+
+#set(KobukiAIST_INCLUDE_DIRS
+#    "@CMAKE_INSTALL_PREFIX@/include/@PROJECT_NAME_LOWER@-@PROJECT_VERSION_MAJOR@"
+#    ${<dependency>_INCLUDE_DIRS}
+#    )
+#
+#set(KobukiAIST_IDL_DIRS
+#    "@CMAKE_INSTALL_PREFIX@/include/@PROJECT_NAME_LOWER@-@PROJECT_VERSION_MAJOR@/idl")
+set(KobukiAIST_INCLUDE_DIRS
+    "@CMAKE_INSTALL_PREFIX@/include/@CPACK_PACKAGE_FILE_NAME@"
+    ${<dependency>_INCLUDE_DIRS}
+    )
+set(KobukiAIST_IDL_DIRS
+    "@CMAKE_INSTALL_PREFIX@/include/@CPACK_PACKAGE_FILE_NAME@/idl")
+
+
+if(WIN32)
+    set(KobukiAIST_LIBRARIES
+        "@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@/@CMAKE_SHARED_LIBRARY_PREFIX@@PROJECT_NAME_LOWER@@CMAKE_STATIC_LIBRARY_SUFFIX@"
+        ${<dependency>_LIBRARIES}
+        )
+else(WIN32)
+    set(KobukiAIST_LIBRARIES
+        "@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@/@CMAKE_SHARED_LIBRARY_PREFIX@@PROJECT_NAME_LOWER@@CMAKE_SHARED_LIBRARY_SUFFIX@"
+        ${<dependency>_LIBRARIES}
+        )
+endif(WIN32)
+
+set(KobukiAIST_DEFINITIONS ${<dependency>_DEFINITIONS})
+
+set(KobukiAIST_VERSION @PROJECT_VERSION@)
+set(KobukiAIST_VERSION_MAJOR @PROJECT_VERSION_MAJOR@)
+set(KobukiAIST_VERSION_MINOR @PROJECT_VERSION_MINOR@)
+set(KobukiAIST_VERSION_REVISION @PROJECT_VERSION_REVISION@)
+set(KobukiAIST_VERSION_CANDIDATE @PROJECT_VERSION_CANDIDATE@)
+
