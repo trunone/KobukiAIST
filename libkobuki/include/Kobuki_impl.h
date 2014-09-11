@@ -24,6 +24,7 @@ namespace rt_net {
     const static double m_PulseToRadian;
     const static double m_WheelRadius;
     uint16_t m_OldRightEncoder, m_OldLeftEncoder;
+    uint16_t m_OldAngle;
     double m_X, m_Y, m_Th;
 
   private:

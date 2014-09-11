@@ -89,6 +89,7 @@ void Kobuki_impl::processOdometry() {
     m_X = m_Y = m_Th = 0;
     m_OldRightEncoder = m_RightEncoder;
     m_OldLeftEncoder  = m_LeftEncoder;
+    m_OldAngle = m_InertialAngle;
     m_Initialized = true;
   }
 
@@ -99,12 +100,9 @@ void Kobuki_impl::processOdometry() {
     * m_WheelRadius * m_PulseToRadian / 2.0;
   //double rotate  = (double)(deltaRightEncoder - deltaLeftEncoder) 
   //  * m_WheelRadius * m_PulseToRadian / m_LengthOfShaft;
-  double rotate = 0.0;
-  for(int i = 0; i<m_GyroDataLength/3; i++)
-    rotate += m_Gyro[i].Z;
 
-  rotate *= 0.02;
- 
+  double rotate = (static_cast<double>(m_InertialAngle-m_OldAngle)/100.0)*M_PI/180.0;
+
   m_X += forward * cos( m_Th + rotate / 2.0);
   m_Y += forward * sin( m_Th + rotate / 2.0);
   m_Th += rotate;
@@ -116,6 +114,7 @@ void Kobuki_impl::processOdometry() {
 
   m_OldRightEncoder = m_RightEncoder;
   m_OldLeftEncoder  = m_LeftEncoder;
+  m_OldAngle = m_InertialAngle;
 }
 
 DOCKSTATE Kobuki_impl::dock(const bool block)
